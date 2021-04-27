@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from pandas_datareader import data as wb
 
-#helpers
+#GET PRICE AND RETURN DATA ACROSS A RANGE OF DATES
 def price_grab(ticker,start_date,end_date):
     stock = pd.DataFrame()
 
@@ -42,62 +42,3 @@ def return_current_prices(tickers):
     for ticker in tickers:
         prices[ticker]=return_current_price(ticker)
     return prices
-
-#GET A CHART OF A STOCK/STOCKS PRICES WITH AN INPUTTED TIME FRAME
-def chart_of_stock(ticker,start_date,end_date):
-    stock = price_grab(ticker,start_date,end_date)
-
-    #create chart
-    plt.figure(figsize=(10, 6))
-    plt.title(start_date+' to ' + end_date +' ' + ticker+' adjusted close price')
-    plt.ylabel("price in USD")
-    plt.xlabel('date')
-
-    plt.plot(stock[ticker])
-    plt.show()
-
-def chart_of_stocks(tickers,start_date,end_date):
-    #create chart
-    plt.figure(figsize=(10, 6))
-    plt.title(start_date + ' to ' + end_date + ' '  + 'adjusted close price')
-    plt.ylabel("price in USD")
-    plt.xlabel('date')
-
-    stock = price_grab(tickers,start_date,end_date)
-
-    for ticker in tickers:
-        plt.plot(stock[ticker],label=ticker)
-
-    plt.legend(loc="upper left")
-    plt.show()
-
-#GET CHART OF STOCK/STOCKS RETURNS WITH INPUTTED TIME FRAME
-def chart_of_stock_returns(ticker,start_date,end_date):
-    cum_return=returns_grab(ticker,start_date,end_date)
-
-    # create chart
-    plt.figure(figsize=(10, 6))
-    plt.title(start_date + ' to ' + end_date + ' ' + ticker + ' returns')
-    plt.ylabel("% returns")
-    plt.xlabel('date')
-
-    plt.plot(cum_return[ticker])
-    plt.show()
-
-
-def chart_of_stocks_returns(tickers,start_date,end_date):
-    cum_returns = returns_grab(tickers, start_date, end_date)
-
-    # create chart
-    plt.figure(figsize=(10, 6))
-    plt.title(start_date + ' to ' + end_date + ' ' + 'returns')
-    plt.ylabel("% returns")
-    plt.xlabel('date')
-
-    #graph returns
-    j=0
-    for i in cum_returns:
-        plt.plot(cum_returns[i],label=i)
-        j+=1
-    plt.legend(loc="upper left")
-    plt.show()
