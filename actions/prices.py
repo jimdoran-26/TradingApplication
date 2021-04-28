@@ -1,8 +1,7 @@
 from get_data import *
 
-def chart_of_stock(ticker,start_date,end_date):
+def chart_of_stock(ticker,start_date,end_date):#todo exception handling
     stock = price_grab(ticker,start_date,end_date)
-
     #create chart
     plt.figure(figsize=(10, 6))
     plt.title(start_date+' to ' + end_date +' ' + ticker+' adjusted close price')

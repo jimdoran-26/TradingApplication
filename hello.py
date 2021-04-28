@@ -7,7 +7,7 @@ from actions.prices import *
 matplotlib.use('Agg')
 
 app = Flask(__name__)
-
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 @app.route('/')
 def hello():
@@ -31,23 +31,43 @@ def get_ticker_post():
 
 
 @app.route('/price_chart')
-def price_chart():
-    chart_of_stock('aapl','2020-01-01','2021-01-01')
-    return render_template('stock_price_chart.html')
+def get_ticker_dates():
+    return render_template('get_ticker_dates.html')
 
-@app.route('/prices_chart')
+@app.route('/price_chart',methods=['POST'])
+def price_chart():
+    text = request.form['text']
+    start_date = request.form['start']
+    end_date = request.form['end']
+
+    processed_text = text.upper()
+    chart_of_stock(processed_text,start_date,end_date)
+
+    return render_template('stock_price_chart.html',value=processed_text)
+
+
+@app.route('/prices_chart')#todo
 def prices_chart():
     chart_of_stocks(['aapl','penn','msft'],'2020-01-01','2021-01-01')
     return render_template('stock_prices_chart.html')
 
 
-
 @app.route('/return_chart')
-def return_chart():
-    chart_of_stock_returns('aapl','2020-01-01','2021-01-01')
-    return render_template('stock_returns_chart.html')
+def get_ticker_dates_return():
+    return render_template('get_ticker_dates.html')
 
-@app.route('/returns_chart')
+@app.route('/return_chart',methods=['POST'])
+def return_chart():
+    text = request.form['text']
+    start_date = request.form['start']
+    end_date = request.form['end']
+
+    processed_text = text.upper()
+    chart_of_stock_returns(processed_text, start_date, end_date)
+
+    return render_template('stock_returns_chart.html', value=processed_text)
+
+@app.route('/returns_chart')#todo
 def returns_chart():
     chart_of_stocks_returns(['aapl','penn','msft'],'2020-01-01','2021-01-01')
     return render_template('stocks_returns_chart.html')
