@@ -33,7 +33,7 @@ def returns_grab(ticker,start_date,end_date):
 #GET THE CURRENT PRICE OF STOCK/STOCKS
 def return_current_price(ticker):
     try:
-        return str(si.get_live_price(ticker))
+        return str(round(si.get_live_price(ticker),2))
     except:
         return ('Not a valid ticker.')
 
